@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class Jump : MonoBehaviour {
 
-    float jumpForce;
+    public float jumpMultiplier;
+    public float jumpForce;
+
+    GameObject angleMarker;
 
 	// Use this for initialization
 	void Start ()
     {
-
-	}
+        angleMarker = GameObject.FindWithTag("angleMarker");
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        jumpForce = Random.Range(0, 10);
 
-		if (Input.GetKeyDown(KeyCode.Space))
+        jumpMultiplier = angleMarker.transform.localScale.z;
+        jumpForce = 5 * angleMarker.transform.localScale.z;
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             GetComponent<Rigidbody>().AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
         }

@@ -6,9 +6,7 @@ public class Rotation : MonoBehaviour {
     
     public Vector3 dir;
     public float angle;
-
-    float jumpForce;
-
+    
     bool angleRestriction;
 
     // Use this for initialization
@@ -18,14 +16,6 @@ public class Rotation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-
-        jumpForce = Random.Range(0, 10);
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GetComponent<Rigidbody>().AddForce(Vector2.up * 3, ForceMode.Impulse);
-        }
 
 
         if (angle <= 180 && angle >= 0)
