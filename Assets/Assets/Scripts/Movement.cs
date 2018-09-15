@@ -2,33 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rotation : MonoBehaviour {
-    
+public class Movement : MonoBehaviour {
+
     public Vector3 dir;
     public float angle;
-    float jumpForce = 5;
-    
-    Vector3 playerPosition, mousePosition, p, force;
-    Ray r;
-    
+
+    private Rigidbody player;
+    private float jumpForce = 10f, maxSpeed = 20f;
+    private Vector3 playerPosition, mousePosition, p, force;
+    private Ray r;
+
 
     bool angleRestriction;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
-
+        player = GetComponent<Rigidbody>();
     }
 
     private Vector3 ip, cp;
 
-	// Update is called once per frame
-	void Update ()
+    // Update is called once per frame
+    void Update()
     {
         playerPosition = transform.position;
-        mousePosition = (Vector3) GetCurrentMousePosition();
+        mousePosition = (Vector3)GetCurrentMousePosition();
         p = Camera.main.WorldToScreenPoint(playerPosition);
-        angle = getAngle(mousePosition,p);
+        angle = getAngle(mousePosition, p);
         force = mousePosition - playerPosition;
 
         if (angle < 180 && angle > 0)
@@ -44,21 +45,24 @@ public class Rotation : MonoBehaviour {
             transform.eulerAngles = new Vector3(0, 0, 0);
         }
 
-        //Debugging code
+        if (player.velocity.magnitude > maxSpeed)
+        {
+            Debug.Log("Magnitude tooo high:" + player.velocity.magnitude + ">" + maxSpeed);
+            Debug.Log("Velocity:" + player.velocity + ", normalised:" + player.velocity.normalized);
+            player.velocity = player.velocity.normalized * maxSpeed;
+            Debug.Log("new velocity:" + player.velocity + ", magnitude:" + player.velocity.magnitude);
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Applying " + force + " force.");
             GetComponent<Rigidbody>().AddForce(force * jumpForce, ForceMode.Impulse);
+
+            
         }
         else if (Input.GetKeyDown(KeyCode.P))
         {
-            Debug.Log("PlayerPosition:" + playerPosition + ", mousePosition:" + mousePosition);
-            Debug.Log("Angle:" + getAngle(mousePosition,p));
-
-            float i = Mathf.Abs(mousePosition.x - p.x);
-
-            Debug.Log("Difference in X : " + i);
-
+            Debug.Log("Magnitude = " + player.velocity.magnitude);
         }
 
     }
