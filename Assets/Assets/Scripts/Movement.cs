@@ -8,7 +8,7 @@ public class Movement : MonoBehaviour {
     public float angle;
 
     private Rigidbody player;
-    private float jumpForce = 10f, maxSpeed = 20f;
+    private float jumpForce = 5f, maxSpeed = 10f;
     private Vector3 playerPosition, mousePosition, p, force;
     private Ray r;
 
@@ -26,12 +26,12 @@ public class Movement : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        playerPosition = transform.position;
+       playerPosition = transform.position;
         mousePosition = (Vector3)GetCurrentMousePosition();
         p = Camera.main.WorldToScreenPoint(playerPosition);
         angle = getAngle(mousePosition, p);
         force = mousePosition - playerPosition;
-
+        /*
         if (angle < 180 && angle > 0)
         {
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -43,7 +43,7 @@ public class Movement : MonoBehaviour {
         else
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
-        }
+        }*/
 
         if (player.velocity.magnitude > maxSpeed)
         {
