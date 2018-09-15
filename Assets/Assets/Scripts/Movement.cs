@@ -1,24 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Movement : MonoBehaviour {
 
-    public Vector3 dir;
-    public float angle;
-
     private Rigidbody player;
     private float jumpForce = 5f, maxSpeed = 10f;
-    private Vector3 playerPosition, mousePosition, p, force;
+    private Vector3 playerPosition, mousePosition, force;
     private Ray r;
 
-
-    bool angleRestriction;
+    public Slider forceBar;
 
     // Use this for initialization
     void Start()
     {
         player = GetComponent<Rigidbody>();
+        forceBar.value = calculateForce();
     }
 
     private Vector3 ip, cp;
@@ -26,51 +24,32 @@ public class Movement : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-       playerPosition = transform.position;
+        playerPosition = transform.position;
         mousePosition = (Vector3)GetCurrentMousePosition();
-        p = Camera.main.WorldToScreenPoint(playerPosition);
-        angle = getAngle(mousePosition, p);
         force = mousePosition - playerPosition;
-        /*
-        if (angle < 180 && angle > 0)
-        {
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        }
-        else if (angle >= 180 || angle < -90)
-        {
-            transform.eulerAngles = new Vector3(0, 0, 180);
-        }
-        else
-        {
-            transform.eulerAngles = new Vector3(0, 0, 0);
-        }*/
+        
 
         if (player.velocity.magnitude > maxSpeed)
         {
-            Debug.Log("Magnitude tooo high:" + player.velocity.magnitude + ">" + maxSpeed);
-            Debug.Log("Velocity:" + player.velocity + ", normalised:" + player.velocity.normalized);
             player.velocity = player.velocity.normalized * maxSpeed;
-            Debug.Log("new velocity:" + player.velocity + ", magnitude:" + player.velocity.magnitude);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Applying " + force + " force.");
             GetComponent<Rigidbody>().AddForce(force * jumpForce, ForceMode.Impulse);
-
-            
         }
         else if (Input.GetKeyDown(KeyCode.P))
         {
-            Debug.Log("Magnitude = " + player.velocity.magnitude);
+            Debug.Log(calculateForce());
         }
 
+        forceBar.value = calculateForce();
     }
 
     //Returns the angle between the mouse and the centre of 
     private float getAngle(Vector3 point1, Vector3 point2)
     {
-        dir = point1 - point2;
+        Vector3 dir = point1 - point2;
         return Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
     }
 
@@ -86,4 +65,16 @@ public class Movement : MonoBehaviour {
         }
         return null;
     }
+
+    private float calculateForce()
+    {
+        if(player.velocity.magnitude == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return player.velocity.magnitude / maxSpeed;
+        }
+    } 
 }
