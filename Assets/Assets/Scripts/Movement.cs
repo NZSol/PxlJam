@@ -47,22 +47,17 @@ public class Movement : MonoBehaviour {
 
         if (player.velocity.magnitude > maxSpeed)
         {
-            Debug.Log("Magnitude tooo high:" + player.velocity.magnitude + ">" + maxSpeed);
-            Debug.Log("Velocity:" + player.velocity + ", normalised:" + player.velocity.normalized);
             player.velocity = player.velocity.normalized * maxSpeed;
-            Debug.Log("new velocity:" + player.velocity + ", magnitude:" + player.velocity.magnitude);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Applying " + force + " force.");
             GetComponent<Rigidbody>().AddForce(force * jumpForce, ForceMode.Impulse);
 
             
         }
         else if (Input.GetKeyDown(KeyCode.P))
         {
-            Debug.Log("Magnitude = " + player.velocity.magnitude);
         }
 
     }
