@@ -9,13 +9,13 @@ public class PowerLine : MonoBehaviour {
     private float dist;
 
     public Transform origin;
-    public Transform destination;
 
     public float lineDrawspeed = 6f;
 
 	// Use this for initialization
 	void Start ()
     {
+        origin = GameObject.FindWithTag("p1").transform;
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.SetPosition(0, origin.position);
         lineRenderer.startWidth = .5f;
@@ -25,6 +25,7 @@ public class PowerLine : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        print(origin.transform.position);
         var mouse = GetCurrentMousePosition().GetValueOrDefault();
         lineRenderer.SetPosition(0, origin.position);
         lineRenderer.SetPosition(1, mouse);
