@@ -5,6 +5,7 @@ using UnityEngine;
 public class Death : MonoBehaviour {
 
     private Rigidbody player;
+    GameObject ParticleSys, ParticleClone;
 
 	// Use this for initialization
 	void Start ()
@@ -31,6 +32,7 @@ public class Death : MonoBehaviour {
     //Kills the player and loads in death animation.
     private void kill()
     {
-        print("Dead");
+        ParticleClone = Instantiate(ParticleSys, transform.position, Quaternion.identity);
+        Destroy(this.gameObject);
     }
 }
