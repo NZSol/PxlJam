@@ -6,18 +6,18 @@ using UnityEngine.UI;
 public class Movement : MonoBehaviour {
 
     private Rigidbody player;
-    private float jumpForce = 5f, maxSpeed = 10f, timer;
+    private float jumpForce = 5f, maxSpeed = 12f, timer;
     private Vector3 playerPosition, mousePosition, force;
     private Ray r;
     private bool canMove = true, stationary = true;
 
-    public Slider forceBar;
+    public Slider forceBarGreen, forceBarYellow, forceBarRed;
 
     // Use this for initialization
     void Start()
     {
         player = GetComponent<Rigidbody>();
-        forceBar.value = calculateForce();
+        setForceBar(calculateForce());
     }
 
     private Vector3 ip, cp;
@@ -46,7 +46,6 @@ public class Movement : MonoBehaviour {
             }
             else
             {
-                print("Became stationary");
                 stationary = true;
                 timer = Time.time + 0.2f;
             }
@@ -66,9 +65,16 @@ public class Movement : MonoBehaviour {
         {
             
         }
-        
 
-        forceBar.value = calculateForce();
+        if (canMove)
+        {
+            setForceBar((force.magnitude/maxSpeed) * jumpForce);
+        }
+        else
+        {
+            setForceBar(calculateForce());
+        }
+        
     }
 
     //Returns the angle between the mouse and the centre of 
@@ -101,5 +107,39 @@ public class Movement : MonoBehaviour {
         {
             return player.velocity.magnitude / maxSpeed;
         }
-    } 
+    }
+
+    private void setForceBar(float force)
+    {
+        float split = 1f / 3f;
+
+        if(force < split)
+        {
+            setForceBarValue(forceBarGreen, force * 3f);
+            setForceBarValue(forceBarYellow, 0);
+            setForceBarValue(forceBarRed, 0);
+        }
+        else if (force < (split * 2))
+        {
+            setForceBarValue(forceBarGreen, 1f);
+            setForceBarValue(forceBarYellow, (force - split) * 3f);
+            setForceBarValue(forceBarRed, 0);
+        }
+        else
+        {
+            setForceBarValue(forceBarGreen, 1f);
+            setForceBarValue(forceBarYellow, 1f);
+            setForceBarValue(forceBarRed, (force - (split * 2)) * 3f);
+        }
+    }
+
+    private void setForceBarValue(Slider slider, float force)
+    {
+        if (force < 0.006f)
+        {
+            force = 0.006f;
+        }
+
+        slider.value = force;
+    }
 }
