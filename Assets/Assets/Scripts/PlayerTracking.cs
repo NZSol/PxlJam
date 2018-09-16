@@ -15,7 +15,10 @@ public class PlayerTracking : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("p1");
+        }
         float z = transform.position.z;
         var d = Input.GetAxis("Mouse ScrollWheel");
 

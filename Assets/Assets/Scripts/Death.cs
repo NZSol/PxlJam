@@ -23,8 +23,7 @@ public class Death : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        //player.velocity.magnitude > 5
-        if (col.gameObject.tag == "spike")
+        if (player.velocity.magnitude > 5 || col.gameObject.tag == "spike")
         {
             kill();
         }
