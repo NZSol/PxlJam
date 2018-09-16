@@ -17,16 +17,16 @@ public class PowerLine : MonoBehaviour {
     {
         origin = GameObject.FindWithTag("p1").transform;
         lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.SetPosition(0, origin.position);
-        lineRenderer.startWidth = .5f;
-        lineRenderer.endWidth = .5f;
+        lineRenderer.SetPosition(0, playerPosition());
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
         var mouse = GetCurrentMousePosition().GetValueOrDefault();
-        lineRenderer.SetPosition(0, origin.position);
+        lineRenderer.SetPosition(0, playerPosition());
         lineRenderer.SetPosition(1, mouse);
 	}
 
@@ -41,5 +41,10 @@ public class PowerLine : MonoBehaviour {
             return ray.GetPoint(rayDistance);
         }
         return null;
+    }
+
+    private Vector3 playerPosition()
+    {
+        return new Vector3(origin.position.x,origin.position.y  - 0.3f,origin.position.z);
     }
 }
