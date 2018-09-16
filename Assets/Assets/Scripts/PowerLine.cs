@@ -18,8 +18,8 @@ public class PowerLine : MonoBehaviour {
         origin = GameObject.FindWithTag("p1").transform;
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.SetPosition(0, origin.position);
-        lineRenderer.startWidth = .5f;
-        lineRenderer.endWidth = .5f;
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
 	}
 	
 	// Update is called once per frame

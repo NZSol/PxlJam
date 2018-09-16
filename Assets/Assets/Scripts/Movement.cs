@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class Movement : MonoBehaviour {
 
     private Rigidbody player;
-    private float jumpForce = 5f, maxSpeed = 10f;
+    private float jumpForce = 5f, maxSpeed = 10f, timer;
     private Vector3 playerPosition, mousePosition, force;
     private Ray r;
+    private bool canMove = true, stationary = true;
 
     public Slider forceBar;
 
@@ -27,21 +28,45 @@ public class Movement : MonoBehaviour {
         playerPosition = transform.position;
         mousePosition = (Vector3)GetCurrentMousePosition();
         force = mousePosition - playerPosition;
-        
 
         if (player.velocity.magnitude > maxSpeed)
         {
             player.velocity = player.velocity.normalized * maxSpeed;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (player.velocity.magnitude == 0)
+        {
+            if (stationary)
+            {
+                if (Time.time > timer)
+                {
+                    canMove = true;
+                }
+                
+            }
+            else
+            {
+                print("Became stationary");
+                stationary = true;
+                timer = Time.time + 0.2f;
+            }
+        }
+        else
+        {
+            stationary = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && canMove)
         {
             GetComponent<Rigidbody>().AddForce(force * jumpForce, ForceMode.Impulse);
+            canMove = false;
+            stationary = false;
         }
         else if (Input.GetKeyDown(KeyCode.P))
         {
-            Debug.Log(calculateForce());
+            
         }
+        
 
         forceBar.value = calculateForce();
     }
