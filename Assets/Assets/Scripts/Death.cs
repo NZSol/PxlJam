@@ -6,6 +6,7 @@ public class Death : MonoBehaviour {
 
     private Rigidbody player;
     public GameObject ParticleSys, ParticleClone;
+    public float timer = 60;
 
 	// Use this for initialization
 	void Start ()
@@ -16,8 +17,13 @@ public class Death : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (ParticleClone != null)
         {
+            timer--;
+        }
+        if (timer < 0.05f)
+        {
+            KillParticle();
         }
 	}
 
@@ -36,7 +42,6 @@ public class Death : MonoBehaviour {
         ParticleClone = Instantiate(ParticleSys, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
 
-        Invoke("KillParticle", 1);
     }
 
     void KillParticle()
