@@ -5,7 +5,7 @@ using UnityEngine;
 public class Death : MonoBehaviour {
 
     private Rigidbody player;
-    GameObject ParticleSys, ParticleClone;
+    public GameObject ParticleSys, ParticleClone;
 
 	// Use this for initialization
 	void Start ()
@@ -23,7 +23,8 @@ public class Death : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        if (player.velocity.magnitude > 5)
+        //player.velocity.magnitude > 5
+        if (col.gameObject.tag == "spike")
         {
             kill();
         }
@@ -32,6 +33,7 @@ public class Death : MonoBehaviour {
     //Kills the player and loads in death animation.
     private void kill()
     {
+        print("kill");
         ParticleClone = Instantiate(ParticleSys, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
