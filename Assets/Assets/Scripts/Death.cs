@@ -6,7 +6,7 @@ public class Death : MonoBehaviour {
 
     private Rigidbody player;
     public GameObject ParticleSys, ParticleClone;
-    public float timer = 60;
+    private float killSpeed = 8f, lastSpeed = 0f;
 
 	// Use this for initialization
 	void Start ()
@@ -19,18 +19,19 @@ public class Death : MonoBehaviour {
     {
         if (ParticleClone != null)
         {
-            timer--;
+
         }
-        if (timer < 0.05f)
-        {
-            KillParticle();
-        }
+
+        lastSpeed = player.velocity.magnitude;
 	}
 
     void OnCollisionEnter(Collision col)
     {
-        if (player.velocity.magnitude > 5 || col.gameObject.tag == "spike")
+        print(lastSpeed + " : " + player.velocity.magnitude);
+
+        if (lastSpeed > killSpeed || col.gameObject.tag == "spike")
         {
+            print(lastSpeed);
             kill();
         }
     }

@@ -67,7 +67,11 @@ public class Movement : MonoBehaviour {
         }
         else if (Input.GetKeyDown(KeyCode.P))
         {
-            
+            print((force.magnitude / maxSpeed) * jumpForce);
+        }
+        else if (Input.GetKeyDown(KeyCode.O))
+        {
+            print((player.velocity.magnitude / maxSpeed));
         }
 
         if (canMove)
