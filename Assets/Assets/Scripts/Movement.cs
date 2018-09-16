@@ -16,9 +16,13 @@ public class Movement : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        forceBarGreen = GameObject.Find("ForceBarGreen").GetComponent<Slider>();
+        forceBarYellow = GameObject.Find("ForceBarYellow").GetComponent<Slider>();
+        forceBarRed = GameObject.Find("ForceBarRed").GetComponent<Slider>();
         player = GetComponent<Rigidbody>();
         setForceBar(calculateForce());
     }
+    
 
     private Vector3 ip, cp;
 

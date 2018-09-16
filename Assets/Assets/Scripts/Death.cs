@@ -36,5 +36,12 @@ public class Death : MonoBehaviour {
         print("kill");
         ParticleClone = Instantiate(ParticleSys, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
+
+        Invoke("KillParticle", 1);
+    }
+
+    void KillParticle()
+    {
+        Destroy(ParticleClone);
     }
 }

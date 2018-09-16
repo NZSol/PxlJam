@@ -25,6 +25,10 @@ public class PowerLine : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        if (origin == null)
+        {
+            origin = GameObject.FindWithTag("p1").transform;
+        }
         var mouse = GetCurrentMousePosition().GetValueOrDefault();
         lineRenderer.SetPosition(0, playerPosition());
         lineRenderer.SetPosition(1, mouse);
